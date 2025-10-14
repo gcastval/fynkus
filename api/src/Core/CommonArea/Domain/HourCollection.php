@@ -62,6 +62,6 @@ class HourCollection
      */
     public function getIterator(): array
     {
-        return array_map(fn ($hour) => new Hour($hour['hour'], $hour['reserved']), $this->hours);
+        return array_values(array_map(fn ($hour) => new Hour($hour['hour'], $hour['reserved']), $this->hours));
     }
 }

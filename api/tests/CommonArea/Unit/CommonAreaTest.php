@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\CommonArea\Unit;
 
-use App\Core\CommonArea\Aplication\CommonAreaReservator;
+use App\Core\CommonArea\Application\CommonAreaReservationsDTO;
+use App\Core\CommonArea\Application\CommonAreaReservationsFinder;
+use App\Core\CommonArea\Application\CommonAreaReservator;
 use App\Core\CommonArea\Domain\Area;
 use App\Core\CommonArea\Domain\CommonArea;
 use App\Core\CommonArea\Domain\CommonAreaRepository;
@@ -64,5 +66,24 @@ class CommonAreaTest extends AbstractTestCase
 
 
         $reservator->handle(Area::GYM, new \DateTimeImmutable('2023-01-01'), 10);
+    }
+
+    public function testGetCommonAreaSchedule(): void
+    {
+        $repository = $this->createMock(CommonAreaRepository::class);
+
+        $commonArea = CommonArea::create(Area::GYM, new \DateTimeImmutable('2023-01-01'));
+        $commonArea->reserve(10);
+
+        $repository->expects($this->once())
+            ->method('findByAreaAndDate')
+            ->willReturn($commonArea);
+
+        $finder = new CommonAreaReservationsFinder($repository);
+
+        $schedule = $finder->handle(Area::GYM, new \DateTimeImmutable('2023-01-01'));
+
+        $this->assertInstanceOf(CommonAreaReservationsDTO::class, $schedule);
+        $this->assertCount(13, $schedule->hours);
     }
 }

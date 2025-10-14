@@ -14,8 +14,6 @@ class ReserveCommonAreaTest extends AbstractTestCase
             'area' => 'gym',
             'date' => '2023-01-01',
             'hour' => 10,
-        ], [], [
-            'HTTP_Content-Type' => 'application/json',
         ]);
 
         $this->assertResponseIsSuccessful();
@@ -38,5 +36,12 @@ class ReserveCommonAreaTest extends AbstractTestCase
         ]);
 
         $this->assertResponseStatusCodeSame(400);
+    }
+
+    public function testGetCommonAreaSchedule(): void
+    {
+        $this->client->request('GET', '/api/v1/common-area/schedule/gym/2023-01-01');
+
+        $this->assertResponseIsSuccessful();
     }
 }

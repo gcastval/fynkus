@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Core\CommonArea\Aplication;
+namespace App\Core\CommonArea\Application;
 
 use App\Core\CommonArea\Domain\Area;
 use App\Core\CommonArea\Domain\CommonArea;

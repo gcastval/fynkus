@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Controller\CommonArea;
 
-use App\Core\CommonArea\Aplication\CommonAreaReservator;
-use App\Core\CommonArea\Aplication\ReserveCommonAreaDTO;
+use App\Core\CommonArea\Application\CommonAreaReservator;
+use App\Core\CommonArea\Application\ReserveCommonAreaRequest;
 use App\Core\CommonArea\Domain\Area;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
 
-class ReserveCommonAreaController extends AbstractController
+class CommonAreaPostController extends AbstractController
 {
     public function __construct(
         private readonly CommonAreaReservator $commonAreaReservator
@@ -21,7 +21,7 @@ class ReserveCommonAreaController extends AbstractController
     }
 
     #[Route(path: '/api/v1/common-area/reserve', name: 'reserve-common-area', methods: ['POST'])]
-    public function __invoke(#[MapRequestPayload] ReserveCommonAreaDTO $request): JsonResponse
+    public function __invoke(#[MapRequestPayload] ReserveCommonAreaRequest $request): JsonResponse
     {
 
         $this->commonAreaReservator->handle(

@@ -45,9 +45,12 @@ class CommonArea
         return $this;
     }
 
-    public function getHours(): HourCollection
+    /**
+     * @return Hour[]
+     */
+    public function getHours(): array
     {
-        return $this->hours;
+        return $this->hours->getIterator();
     }
 
 }

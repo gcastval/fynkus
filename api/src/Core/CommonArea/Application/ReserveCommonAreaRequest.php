@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 
-namespace App\Core\CommonArea\Aplication;
+namespace App\Core\CommonArea\Application;
 
-class ReserveCommonAreaDTO
+class ReserveCommonAreaRequest
 {
     public function __construct(
         public readonly string $area,
