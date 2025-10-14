@@ -19,6 +19,3 @@ migrate: database-create #Migrate database
 
 migrate-prev: #Migrate database
 	php bin/console doctrine:migrations:prev
-
-ping-database:
-    psql -h db -U root -d postgres -c 'SELECT 1;' >/dev/null 2>&1"

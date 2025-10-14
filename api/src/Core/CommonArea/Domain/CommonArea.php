@@ -14,7 +14,7 @@ class CommonArea
     #[ORM\GeneratedValue(strategy: "AUTO")]
     private int $id;
 
-    #[ORM\Column(type: "datetime", nullable: false)]
+    #[ORM\Column(type: "date", nullable: false)]
     private readonly \DateTimeInterface $date;
 
     #[ORM\Column(type: "string", nullable: false)]
@@ -24,7 +24,7 @@ class CommonArea
     private HourCollection $hours;
 
     private function __construct(
-        CommonArea $area,
+        Area $area,
         \DateTimeInterface $date,
         HourCollection $hours,
     ) {
@@ -33,7 +33,7 @@ class CommonArea
         $this->date = $date;
     }
 
-    public static function create(CommonArea $area, \DateTimeInterface $date): self
+    public static function create(Area $area, \DateTimeInterface $date): self
     {
         return new self($area, $date, HourCollection::create());
     }
