@@ -13,9 +13,7 @@ abstract class AbstractTestCase extends WebTestCase
     {
         parent::setUp();
         $this->client = static::createClient([
-            'headers' => [
-                'Content-Type' => 'application/json',
-            ],
+            'debug' => false,
         ]);
     }
 }

@@ -1,0 +1,9 @@
+services:
+
+  db:
+    image: postgres
+    container_name: test-db
+    environment:
+      POSTGRES_DB: fynkus_test
+      POSTGRES_PASSWORD: root
+      POSTGRES_USER: root

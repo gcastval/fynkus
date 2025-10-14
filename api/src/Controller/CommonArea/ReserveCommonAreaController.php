@@ -9,6 +9,7 @@ use App\Core\CommonArea\Aplication\ReserveCommonAreaDTO;
 use App\Core\CommonArea\Domain\Area;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
 
 class ReserveCommonAreaController extends AbstractController
@@ -20,8 +21,9 @@ class ReserveCommonAreaController extends AbstractController
     }
 
     #[Route(path: '/api/v1/common-area/reserve', name: 'reserve-common-area', methods: ['POST'])]
-    public function __invoke(ReserveCommonAreaDTO $request): JsonResponse
+    public function __invoke(#[MapRequestPayload] ReserveCommonAreaDTO $request): JsonResponse
     {
+
         $this->commonAreaReservator->handle(
             Area::from($request->area),
             new \DateTimeImmutable($request->date),
@@ -29,7 +31,7 @@ class ReserveCommonAreaController extends AbstractController
         );
 
         return new JsonResponse([
-            'status' => 'fail',
-        ], JsonResponse::HTTP_BAD_REQUEST);
+            'status' => 'ok',
+        ], JsonResponse::HTTP_CREATED);
     }
 }

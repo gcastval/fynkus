@@ -22,40 +22,46 @@ class HourCollection
         $hours = [];
 
         for ($i = 9; $i < 22; $i++) {
-            $hours[] = new Hour($i, false);
+            $hours["$i:hour"] = [
+                'hour' => $i,
+                'reserved' => false,
+            ];
         }
-
-        return new HourCollection($hours);
+        return new self($hours);
     }
 
     public function reserve(int $hour): HourCollection
     {
-        if($hour < 9 || $hour > 21) {
-            throw new \RuntimeException('Hour is out of range');
+        if ($hour < 9 || $hour > 21) {
+            throw new HourOutOfRangeError('Hour is out of range');
         }
 
-        if(!$this->isHourAvailable($hour)) {
-            throw new \RuntimeException('Hour is not available');
+        if (!$this->isHourAvailable($hour)) {
+            throw new HourNotAvailableError('Hour is not available');
         }
 
-        $this->hours[$hour] = new Hour($hour, true);
+        $this->hours["$hour:hour"] = [
+            'hour' => $hour,
+            'reserved' => true,
+        ];
 
         return new self($this->hours);
     }
 
     public function isHourAvailable(int $hour): bool
     {
-        return !$this->hours[$hour]->isReserved();
+        if (!isset($this->hours["$hour:hour"])) {
+            return false;
+        }
+
+        return !$this->hours["$hour:hour"]['reserved'];
     }
 
-
-    public function toArray(): array
+    /**
+     * @return Hour[]
+     */
+    public function getIterator(): array
     {
-        return array_map(fn (Hour $hour) => $hour->toArray(), $this->hours);
-    }
-
-    public function getIterator(): \ArrayIterator
-    {
-        return new \ArrayIterator($this->hours);
+        return array_map(fn ($hour) => new Hour($hour['hour'], $hour['reserved']), $this->hours);
     }
 }

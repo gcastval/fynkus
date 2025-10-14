@@ -29,8 +29,8 @@ class CommonArea
         HourCollection $hours,
     ) {
         $this->area = $area->value;
-        $this->hours = $hours;
         $this->date = $date;
+        $this->hours = $hours;
     }
 
     public static function create(Area $area, \DateTimeInterface $date): self
@@ -40,9 +40,14 @@ class CommonArea
 
     public function reserve(int $hour): self
     {
-        $this->hours = $this->hours->reserve($hour);
+        $this->hours->reserve($hour);
 
         return $this;
+    }
+
+    public function getHours(): HourCollection
+    {
+        return $this->hours;
     }
 
 }

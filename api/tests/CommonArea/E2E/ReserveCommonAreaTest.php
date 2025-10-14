@@ -14,6 +14,8 @@ class ReserveCommonAreaTest extends AbstractTestCase
             'area' => 'gym',
             'date' => '2023-01-01',
             'hour' => 10,
+        ], [], [
+            'HTTP_Content-Type' => 'application/json',
         ]);
 
         $this->assertResponseIsSuccessful();

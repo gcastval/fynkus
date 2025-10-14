@@ -8,7 +8,10 @@ use App\Core\CommonArea\Aplication\CommonAreaReservator;
 use App\Core\CommonArea\Domain\Area;
 use App\Core\CommonArea\Domain\CommonArea;
 use App\Core\CommonArea\Domain\CommonAreaRepository;
+use App\Core\CommonArea\Domain\Hour;
 use App\Core\CommonArea\Domain\HourCollection;
+use App\Core\CommonArea\Domain\HourNotAvailableError;
+use App\Core\CommonArea\Domain\HourOutOfRangeError;
 use App\Tests\Shared\AbstractTestCase;
 
 class CommonAreaTest extends AbstractTestCase
@@ -18,12 +21,11 @@ class CommonAreaTest extends AbstractTestCase
     {
         $hourCollection = HourCollection::create();
 
-        $this->assertCount(13, $hourCollection->toArray());
+        $this->assertCount(13, $hourCollection->getIterator());
 
         foreach ($hourCollection->getIterator() as $hour) {
             $this->assertTrue(!$hour->isReserved());
         }
-
     }
 
     public function testFailWhenReservingAnHourOutOrRange(): void
@@ -38,10 +40,10 @@ class CommonAreaTest extends AbstractTestCase
 
         $reservator = new CommonAreaReservator($repository);
 
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(HourOutOfRangeError::class);
         $reservator->handle(Area::GYM, new \DateTimeImmutable('2023-01-01'), 8);
 
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(HourOutOfRangeError::class);
         $reservator->handle(Area::GYM, new \DateTimeImmutable('2023-01-01'), 22);
 
     }
@@ -56,11 +58,10 @@ class CommonAreaTest extends AbstractTestCase
         $repository->expects($this->once())
             ->method('findByAreaAndDate')
             ->willReturn($commonArea);
-
         $reservator = new CommonAreaReservator($repository);
 
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Hour is not available');
+        $this->expectException(HourNotAvailableError::class);
+
 
         $reservator->handle(Area::GYM, new \DateTimeImmutable('2023-01-01'), 10);
     }
