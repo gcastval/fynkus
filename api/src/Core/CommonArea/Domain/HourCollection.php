@@ -19,30 +19,43 @@ class HourCollection
 
     public static function create(): self
     {
-        $hours = new HourCollection();
+        $hours = [];
 
-        for ($i = 9; $i < 20; $i++) {
-            $hours::add(new Hour($i, false));
+        for ($i = 9; $i < 22; $i++) {
+            $hours[] = new Hour($i, false);
         }
 
-        return $hours;
+        return new HourCollection($hours);
     }
 
     public function reserve(int $hour): HourCollection
     {
+        if($hour < 9 || $hour > 21) {
+            throw new \RuntimeException('Hour is out of range');
+        }
+
+        if(!$this->isHourAvailable($hour)) {
+            throw new \RuntimeException('Hour is not available');
+        }
+
         $this->hours[$hour] = new Hour($hour, true);
 
         return new self($this->hours);
     }
 
-    private function add(Hour $hour): void
+    public function isHourAvailable(int $hour): bool
     {
-        $this->hours[$hour->value()] = $hour;
+        return !$this->hours[$hour]->isReserved();
     }
 
 
     public function toArray(): array
     {
         return array_map(fn (Hour $hour) => $hour->toArray(), $this->hours);
+    }
+
+    public function getIterator(): \ArrayIterator
+    {
+        return new \ArrayIterator($this->hours);
     }
 }
