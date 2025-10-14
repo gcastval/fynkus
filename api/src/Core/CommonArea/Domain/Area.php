@@ -9,4 +9,5 @@ enum Area: string
     case GYM = 'gym';
     case PADEL = 'padel';
     case POOL = 'pool';
+
 }

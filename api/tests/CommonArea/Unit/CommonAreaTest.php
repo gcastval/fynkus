@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\CommonArea;
+namespace App\Tests\CommonArea\Unit;
 
 use App\Core\CommonArea\Aplication\CommonAreaReservator;
 use App\Core\CommonArea\Domain\Area;
@@ -64,6 +64,4 @@ class CommonAreaTest extends AbstractTestCase
 
         $reservator->handle(Area::GYM, new \DateTimeImmutable('2023-01-01'), 10);
     }
-
-
 }
