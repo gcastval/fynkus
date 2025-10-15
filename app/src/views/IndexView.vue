@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { getReservations, reserveHour } from '@/api/common-area/reservations'
-import type { Area, GetReservationRequest, Hour, ScheduleResponse } from '@/api/common-area/types'
+import type { GetReservationRequest, Hour, ScheduleResponse } from '@/api/common-area/types'
 import HoursList from '@/components/common-area/HoursList.vue'
 import ModalConfirm from '@/components/ModalConfirm.vue'
 import { AREAS, getAreaLabel } from '@/utils/area'
