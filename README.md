@@ -7,6 +7,7 @@
 ```bash
 docker-compose up --build
 ```
+una vez levantado, acceder a `http://localhost:3000/` para ver la aplicación.
 
 - **Ejecutar los tests (backend)**:
 
