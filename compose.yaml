@@ -33,3 +33,13 @@ services:
       POSTGRES_DB: fynkus
       POSTGRES_PASSWORD: root
       POSTGRES_USER: root
+
+  app:
+    container_name: app
+    build:
+      context: .
+      dockerfile: docker/Dockerfile-app
+    depends_on:
+      - api
+    ports:
+      - 3000:3000
