@@ -8,5 +8,5 @@ export const AREAS = [
 
 
 export const getAreaLabel = (area: Area) => {
-  return AREAS.find((a) => a.value === area)?.label
+  return AREAS.find((a) => a.value === area)!.label
 }

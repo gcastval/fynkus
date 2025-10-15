@@ -12,6 +12,7 @@ const emit = defineEmits<{
 }>()
 
 const handleReserveHour = (hour: Hour) => {
+  if (hour.reserved) return
   emit('reserve-hour', hour)
 }
 </script>
