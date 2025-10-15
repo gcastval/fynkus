@@ -26,7 +26,7 @@ defineExpose({ show, close, onConfirm })
 <template>
   <dialog
     ref="modal"
-    class="p-8 fixed top-[50%] space-y-8 left-[50%] translate-x-[-50%] translate-y-[-50%] rounded-md w-md bg-white shadow-lg"
+    class="py-8 fixed top-[50%] space-y-14 left-[50%] translate-x-[-50%] translate-y-[-50%] rounded-md w-md bg-white shadow-lg"
   >
     <section class="text-center">
       <p class="text-lg font-semibold">Are you sure?</p>

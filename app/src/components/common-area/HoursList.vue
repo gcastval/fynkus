@@ -17,11 +17,11 @@ const handleReserveHour = (hour: Hour) => {
 </script>
 
 <template>
-  <div class="grid grid-cols-4 gap-4 max-w-sm">
+  <div class="grid grid-cols-5 gap-6">
     <div
       v-for="hour in hours"
       :key="hour.hour"
-      class="rounded py-6 text-center border"
+      class="rounded p-6 border w-fit"
       :class="{
         'bg-gray-400 cursor-not-allowed': hour.reserved,
         'cursor-pointer': !hour.reserved,

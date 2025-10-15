@@ -1,17 +1,17 @@
 <script lang="ts" setup>
 import { getReservations, reserveHour } from '@/api/common-area/reservations'
-import type { Hour, ScheduleResponse } from '@/api/common-area/types'
+import type { GetReservationRequest, Hour, ScheduleResponse } from '@/api/common-area/types'
 import HoursList from '@/components/common-area/HoursList.vue'
 import ModalConfirm from '@/components/ModalConfirm.vue'
-import { AREAS } from '@/utils/area'
+import { AREAS, getAreaLabel } from '@/utils/area'
 import { formatDate } from '@/utils/date'
 import { onMounted, reactive, ref } from 'vue'
 
 const confirmModal = ref<InstanceType<typeof ModalConfirm>>()
 
-const form = reactive({
+const form = reactive<Omit<GetReservationRequest, 'date'> & { date: string }>({
   area: 'padel',
-  date: formatDate(new Date()),
+  date: formatDate(new Date())
 })
 
 const schedule = reactive<ScheduleResponse>({
@@ -55,7 +55,7 @@ onMounted(handleGetReservations)
 
 <template>
   <div class="bg-gray-50 h-[100vh]">
-    <div class="space-y-20 py-20">
+    <div class="space-y-16 py-20">
       <div class="flex flex-col gap-6 items-center">
         <select class="w-50 border p-2" v-model="form.area">
           <option value="" disabled selected>Área Común</option>
@@ -78,7 +78,10 @@ onMounted(handleGetReservations)
           CONSULTAR
         </button>
       </div>
-      <HoursList class="mx-auto" :hours="schedule.hours" @reserve-hour="askConfirmation" />
+      <div class="space-y-6">
+        <h2 class="text-lg max-w-lg mx-auto">Horas disponibles para {{ getAreaLabel(form.area) }} el {{ formatDate(new Date(form.date), '/', 'es') }}</h2>
+        <HoursList class="mx-auto max-w-lg" :hours="schedule.hours" @reserve-hour="askConfirmation" />
+      </div>
     </div>
     <ModalConfirm ref="confirmModal" />
   </div>

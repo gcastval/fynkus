@@ -1,5 +1,7 @@
+import {  AREAS } from "@/utils/area"
+
 export interface GetReservationRequest {
-  area: string
+  area: Area
   date: Date
 }
 
@@ -15,3 +17,5 @@ export type Hour = {
   hour: number
   reserved: boolean
 }
+
+export type Area = typeof AREAS[number]['value']
