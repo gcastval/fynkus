@@ -1,41 +1,56 @@
 <script lang="ts" setup>
-import { ENV } from '@/utils/const'
+import { getReservations, reserveHour } from '@/api/common-area/reservations'
+import type { Hour, ScheduleResponse } from '@/api/common-area/types'
+import HoursList from '@/components/common-area/HoursList.vue'
+import ModalConfirm from '@/components/ModalConfirm.vue'
+import { AREAS } from '@/utils/area'
 import { formatDate } from '@/utils/date'
-import { reactive } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
+
+const confirmModal = ref<InstanceType<typeof ModalConfirm>>()
 
 const form = reactive({
   area: 'padel',
   date: formatDate(new Date()),
 })
 
-const schedule = reactive<{
-  hours: Hour[]
-}>({
+const schedule = reactive<ScheduleResponse>({
   hours: [],
 })
 
-type Hour = {
-  hour: number
-  reserved: boolean
+const askConfirmation = async (hour: Hour) => {
+  if (!confirmModal.value) return
+
+  confirmModal.value.onConfirm = () => handleReserveHour(hour)
+  confirmModal.value.show()
 }
 
-const consultReservations = async () => {
-  const date = formatDate(new Date(form.date))
-  const url = new URL(`${ENV.API_URL}/api/v1/common-area/schedule/${form.area}/${date}`)
+const handleGetReservations = async () => {
+  const request = {
+    area: form.area,
+    date: new Date(form.date),
+  }
 
-  const data = await fetch(url.toString(), {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }).then((response) => response.json())
+  const [error, response] = await getReservations(request)
 
-  schedule.hours = await data.hours
+  if (error) {
+    console.error(error)
+    return
+  }
+
+  schedule.hours = response.hours
 }
 
-const reserveHour = async (hour: Hour) => {
-  console.log(hour)
+const handleReserveHour = async (hour: Hour) => {
+  await reserveHour({
+    area: form.area,
+    date: new Date(form.date),
+    hour: hour.hour,
+  })
+  handleGetReservations()
 }
+
+onMounted(handleGetReservations)
 </script>
 
 <template>
@@ -44,9 +59,9 @@ const reserveHour = async (hour: Hour) => {
       <div class="flex flex-col gap-6 items-center">
         <select class="w-50 border p-2" v-model="form.area">
           <option value="" disabled selected>Área Común</option>
-          <option value="padel">Padel</option>
-          <option value="gym">Gymnasio</option>
-          <option value="pool">Piscina</option>
+          <option v-for="area in AREAS" :key="area.value" :value="area.value">
+            {{ area.label }}
+          </option>
         </select>
 
         <input
@@ -57,26 +72,14 @@ const reserveHour = async (hour: Hour) => {
         />
 
         <button
-          @click="consultReservations"
+          @click="handleGetReservations"
           class="p-3 bg-blue-500 rounded-md text-gray-50 cursor-pointer"
         >
           CONSULTAR
         </button>
       </div>
-      <div class="grid grid-cols-4 gap-4 max-w-sm mx-auto">
-        <div
-          v-for="hour in schedule.hours"
-          :key="hour.hour"
-          class="rounded p-6 text-center border"
-          :class="{
-            'bg-gray-400 text-gray-100 font-bold cursor-not-allowed': hour.reserved,
-            'cursor-pointer': !hour.reserved,
-          }"
-          @click="reserveHour(hour)"
-        >
-          {{ hour.hour }}
-        </div>
-      </div>
+      <HoursList class="mx-auto" :hours="schedule.hours" @reserve-hour="askConfirmation" />
     </div>
+    <ModalConfirm ref="confirmModal" />
   </div>
 </template>
