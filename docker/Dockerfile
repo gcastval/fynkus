@@ -2,6 +2,8 @@ FROM php:8.2-fpm
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
+WORKDIR /app
+
 RUN apt-get update && apt-get install -y \
     make \
     gcc \
@@ -24,12 +26,12 @@ COPY ./api/composer.json ./api/composer.lock ./
 RUN composer install --no-scripts
 
 # Copy application files
-COPY ./api .
-COPY ./sync-db.sh .
+COPY ./api /app
+COPY ./sync-db.sh /app
 
-RUN mkdir -p /var /var/cache /var/log /var/cache/prod
-RUN chmod -R 777 /var
+RUN mkdir -p /app/var /app/var/cache /app/var/log /app/var/cache/prod
+RUN chmod -R 777 /app/var
 
 EXPOSE 9000
 
-CMD ["/bin/bash","-c", "./sync-db.sh && php-fpm"]
+CMD ["/bin/bash","-c", "/app/sync-db.sh && php-fpm"]
