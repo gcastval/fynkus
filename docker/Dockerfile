@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     libpq-dev \
     postgresql-client \ 
+    bash \
     && docker-php-ext-install intl zip pdo pdo_pgsql pgsql
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -27,6 +28,8 @@ COPY ./api .
 COPY ./sync-db.sh .
 
 RUN mkdir -p /var /var/cache /var/log /var/cache/prod
-RUN php bin/console cache:clear --env=prod --no-debug
+RUN chmod -R 777 /var
 
 EXPOSE 9000
+
+CMD ["/bin/bash","-c", "./sync-db.sh && php-fpm"]

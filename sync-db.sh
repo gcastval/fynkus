@@ -10,4 +10,3 @@ done;
 echo "Ejecutando migraciones..."
 php bin/console doctrine:migrations:migrate --no-interaction --all-or-nothing;
 echo "✅ DB SYNC"
-exec php-fpm

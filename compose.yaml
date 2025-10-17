@@ -19,12 +19,9 @@ services:
       - PGPASSWORD=root
       - APP_ENV=prod
       - APP_DEBUG=0
+      - DEFAULT_URI=http://localhost:8000
     depends_on:
       - db
-    command: >
-      /bin/bash -c "
-        ./sync-db.sh;
-      "
 
   db:
     image: postgres
