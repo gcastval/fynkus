@@ -1,0 +1,36 @@
+{
+    "executionRoleArn": "arn:aws:iam::585008044838:role/fynkus-ecs-task-execution-role",
+    "containerDefinitions": [
+        {
+            "name": "api-nginx",
+            "image": "ghcr.io/gcastval/fynkus-api-nginx:lts",
+            "essential": true,
+            "portMappings": [
+                {
+                    "hostPort": 8000,
+                    "protocol": "tcp",
+                    "containerPort": 8000
+                }
+            ]
+        },
+        {
+            "name": "api",
+            "image": "ghcr.io/gcastval/fynkus-api:lts",
+            "essential": true,
+            "portMappings": [
+                {
+                    "hostPort": 9000,
+                    "protocol": "tcp",
+                    "containerPort": 9000
+                }
+            ]
+        }
+    ],
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "256",
+    "family": "fynkus-ecs-task-def",
+    "memory": "512",
+    "networkMode": "awsvpc"
+}
