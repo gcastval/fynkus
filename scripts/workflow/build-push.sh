@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-cd "$(dirname "$0")/.."
+cd "$(dirname "$0")/../.."
 
 REGISTRY="ghcr.io/gcastval/fynkus"
 COMMIT_HASH="${COMMIT_HASH}"
