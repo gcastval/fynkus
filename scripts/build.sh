@@ -14,7 +14,7 @@ declare -A IMAGES=(
 
 for name in "${!IMAGES[@]}"; do
   dockerfile="${IMAGES[$name]}"
-  image="$REGISTRY/$name"
+  image="$REGISTRY-$name"
 
   docker build \
     -f "$dockerfile" \

@@ -20,11 +20,8 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: execution permission
-        run: |
-          chmod +x ./scripts/build.sh
       - name: Build and push images
         env:
           COMMIT_HASH: ${{ github.sha }}
         run: |
-          COMMIT_HASH="${SHA:0:7}" ./scripts/build.sh
+          COMMIT_HASH="${COMMIT_HASH:0:7}" bash scripts/build.sh
