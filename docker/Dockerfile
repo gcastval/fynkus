@@ -27,7 +27,6 @@ RUN composer install --no-scripts
 
 # Copy application files
 COPY ./api /app
-COPY ./sync-db.sh /app
 
 RUN mkdir -p /app/var /app/var/cache /app/var/log /app/var/cache/prod
 RUN chown -R www-data:www-data /app/var
