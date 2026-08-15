@@ -7,9 +7,9 @@ REGISTRY="ghcr.io/gcastval/fynkus"
 COMMIT_HASH="${COMMIT_HASH}"
 
 declare -A IMAGES=(
-#   ["api-nginx"]="docker/nginx/Dockerfile-api-nginx"
-  ["api"]="docker/Dockerfile"
-  ["app"]="docker/Dockerfile-app"
+  ["api-nginx"]="docker/nginx/Dockerfile-api-nginx"
+  # ["api"]="docker/Dockerfile"
+  # ["app"]="docker/Dockerfile-app"
 )
 
 for name in "${!IMAGES[@]}"; do

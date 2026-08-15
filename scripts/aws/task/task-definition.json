@@ -11,7 +11,15 @@
                     "protocol": "tcp",
                     "containerPort": 8000
                 }
-            ]
+            ],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/fynkus-ecs-task-def",
+                    "awslogs-region": "eu-west-1",
+                    "awslogs-stream-prefix": "api-nginx"
+                }
+            }
         },
         {
             "name": "api",
@@ -23,7 +31,15 @@
                     "protocol": "tcp",
                     "containerPort": 9000
                 }
-            ]
+            ],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/fynkus-ecs-task-def",
+                    "awslogs-region": "eu-west-1",
+                    "awslogs-stream-prefix": "api"
+                }
+            }
         }
     ],
     "requiresCompatibilities": [
@@ -31,6 +47,6 @@
     ],
     "cpu": "256",
     "family": "fynkus-ecs-task-def",
-    "memory": "512",
+    "memory": "1024",
     "networkMode": "awsvpc"
 }
