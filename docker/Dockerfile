@@ -30,8 +30,8 @@ COPY ./api /app
 COPY ./sync-db.sh /app
 
 RUN mkdir -p /app/var /app/var/cache /app/var/log /app/var/cache/prod
-RUN chmod -R 777 /app/var
+RUN chown -R www-data:www-data /app/var
 
 EXPOSE 9000
 
-CMD ["/bin/bash","-c", "/app/sync-db.sh && php-fpm"]
+CMD ["/bin/bash","-c", "php-fpm"]

@@ -5,7 +5,7 @@ WORKDIR /build
 COPY app/package*.json ./
 RUN npm install
 COPY /app /build
-RUN npm run build
+RUN npm run build-only
 
 FROM nginx:1.29-alpine as production-stage
 

@@ -1,0 +1,6 @@
+/app/node_modules
+/api/vendor
+/api/var
+/api/.env.local
+/.git
+/.claude

@@ -1,14 +1,17 @@
 
 services:
-  nginx:
+
+  api-nginx:
     container_name: api-nginx
     build:
       context: .
-      dockerfile: docker/nginx/Dockerfile-nginx
+      dockerfile: docker/nginx/Dockerfile-api-nginx
+    ports:
+      - 8000:8000
     depends_on:
       - api
-    ports:
-      - 8000:80
+    networks:
+      - fynkus
   api:
     container_name: api
     build:
@@ -20,23 +23,20 @@ services:
       - APP_ENV=prod
       - APP_DEBUG=0
       - DEFAULT_URI=http://localhost:8000
-    depends_on:
-      - db
-
-  db:
-    image: postgres
-    container_name: db
-    environment:
-      POSTGRES_DB: fynkus
-      POSTGRES_PASSWORD: root
-      POSTGRES_USER: root
-
+    networks:
+      - fynkus
   app:
     container_name: app
     build:
       context: .
       dockerfile: docker/Dockerfile-app
-    depends_on:
-      - api
     ports:
       - 3000:3000
+    depends_on:
+      - api
+    networks:
+      - fynkus
+
+networks:
+  fynkus:
+    driver: bridge
