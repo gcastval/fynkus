@@ -15,7 +15,7 @@
             "logConfiguration": {
                 "logDriver": "awslogs",
                 "options": {
-                    "awslogs-group": "/ecs/fynkus-ecs-task-def",
+                    "awslogs-group": "/ecs/ecs-backend-task",
                     "awslogs-region": "eu-west-1",
                     "awslogs-stream-prefix": "api-nginx"
                 }
@@ -35,7 +35,7 @@
             "logConfiguration": {
                 "logDriver": "awslogs",
                 "options": {
-                    "awslogs-group": "/ecs/fynkus-ecs-task-def",
+                    "awslogs-group": "/ecs/ecs-backend-task",
                     "awslogs-region": "eu-west-1",
                     "awslogs-stream-prefix": "api"
                 }
@@ -46,7 +46,7 @@
         "FARGATE"
     ],
     "cpu": "256",
-    "family": "fynkus-ecs-task-def",
+    "family": "backend",
     "memory": "1024",
     "networkMode": "awsvpc"
 }

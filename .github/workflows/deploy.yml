@@ -28,4 +28,4 @@ jobs:
         env:
           COMMIT_HASH: ${{ github.sha }}
         run: |
-          COMMIT_HASH="${COMMIT_HASH:0:7}" bash scripts/workflow/build-push.sh
+          COMMIT_HASH="${COMMIT_HASH:0:7}" bash infra/actions/build-push.sh
